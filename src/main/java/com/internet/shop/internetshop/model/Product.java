@@ -1,10 +1,13 @@
-package com.internet.shop.internetshop;
+package com.internet.shop.internetshop.model;
 
+import com.internet.shop.internetshop.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @Table(name = "products")
@@ -31,7 +34,7 @@ public class Product extends BaseEntity {
     private String sku;
 
     @Enumerated(EnumType.STRING)
-    private ProductStatus status;
+    private Status status;
 
 
 }

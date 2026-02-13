@@ -1,4 +1,4 @@
-package com.internet.shop.internetshop;
+package com.internet.shop.internetshop.model;
 
 import jakarta.persistence.Embeddable;
 import lombok.Data;
