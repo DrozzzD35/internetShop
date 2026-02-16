@@ -47,8 +47,8 @@ public class ProductRepository implements ProductDao {
     }
 
     @Override
-    public void removeProduct(Product product) {
-        Optional<Product> optionalProduct = findProductById(product.getId());
+    public void removeProduct(long id) {
+        Optional<Product> optionalProduct = findProductById(id);
         optionalProduct.ifPresent(manager::remove);
     }
 

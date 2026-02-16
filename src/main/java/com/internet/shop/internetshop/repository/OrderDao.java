@@ -13,7 +13,7 @@ public interface OrderDao {
 
     Order createOrder(Order order);
 
-    void removeOrder(Order order);
+    void removeOrder(long id);
 
     Optional<Order> updateOrder(Order order);
 

@@ -36,8 +36,8 @@ public class OrderRepository implements OrderDao {
     }
 
     @Override
-    public void removeOrder(Order order) {
-        Optional<Order> optionalOrder = findOrderById(order.getId());
+    public void removeOrder(long id) {
+        Optional<Order> optionalOrder = findOrderById(id);
         optionalOrder.ifPresent(manager::remove);
     }
 

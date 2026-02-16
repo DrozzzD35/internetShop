@@ -15,7 +15,7 @@ public interface ProductDao {
 
     Product createProduct(Product product);
 
-    void removeProduct(Product product);
+    void removeProduct(long id);
 
     Optional<Product> updateProduct(Product product);
 
