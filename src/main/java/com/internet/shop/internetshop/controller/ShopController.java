@@ -37,7 +37,7 @@ public class ShopController {
 
     @DeleteMapping("/orders/{id}")
     public void removeOrder(@PathVariable long id) {
-        service.removeProduct(id);
+        service.removeOrder(id);
     }
 
     @PutMapping("/orders")
@@ -50,7 +50,7 @@ public class ShopController {
         return service.getProductById(id);
     }
 
-    @GetMapping("/products/{sku}")
+    @GetMapping("/products/sku/{sku}")
     public Product getProductBySku(@PathVariable String sku) {
         return service.getProductBySku(sku);
     }
@@ -62,7 +62,7 @@ public class ShopController {
 
     @PostMapping("/products")
     @ResponseStatus(HttpStatus.CREATED)
-    public Product createProduct(Product product) {
+    public Product createProduct(@RequestBody Product product) {
         return service.createProduct(product);
     }
 

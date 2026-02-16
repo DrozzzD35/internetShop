@@ -3,6 +3,7 @@ package com.internet.shop.internetshop.repository;
 import com.internet.shop.internetshop.model.Product;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
