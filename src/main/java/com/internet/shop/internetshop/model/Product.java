@@ -5,12 +5,13 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.SQLRestriction;
 
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
 @Table(name = "products")
+@SQLRestriction("deleted_at IS NULL")
 public class Product extends BaseEntity {
 
     @Column(

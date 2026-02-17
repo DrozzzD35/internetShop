@@ -4,6 +4,7 @@ import com.internet.shop.internetshop.dto.OrderDto;
 import com.internet.shop.internetshop.dto.ProductDto;
 import com.internet.shop.internetshop.dto.UpdateOrderDto;
 import com.internet.shop.internetshop.dto.UpdateProductDto;
+import com.internet.shop.internetshop.enums.Status;
 import com.internet.shop.internetshop.model.Order;
 import com.internet.shop.internetshop.model.Product;
 import com.internet.shop.internetshop.repository.OrderDao;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,8 +57,12 @@ public class ShopService {
 
     @Transactional
     public void removeOrder(long id) {
-        orderDao.removeOrder(id);
-        log.info("Заказ удалён");
+        Order order = orderDao.findOrderById(id)
+                .orElseThrow(() -> new RuntimeException("Заказ не найден"));
+
+        order.setDeletedAt(LocalDateTime.now());
+        order.setStatus(Status.ARCHIVED);
+        log.info("Заказ с id - {} отправлен в архив (удалён)", order.getId());
     }
 
     @Transactional
@@ -105,8 +111,12 @@ public class ShopService {
 
     @Transactional
     public void removeProduct(long id) {
-        productDao.removeProduct(id);
-        log.info("Товар удалён");
+        Product product = productDao.findProductById(id)
+                .orElseThrow(() -> new RuntimeException("Товар не найден"));
+
+        product.setDeletedAt(LocalDateTime.now());
+        product.setStatus(Status.ARCHIVED);
+        log.info("Товар с id - {} отправлен в архив (удалён)", product.getId());
     }
 
     @Transactional
