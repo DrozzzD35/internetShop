@@ -42,12 +42,12 @@ public class OrderRepository implements OrderDao {
         optionalOrder.ifPresent(manager::remove);
     }
 
-    @Override
-    public Optional<Order> updateOrder(Order order) {
-        if (order.getId() == 0) {
-            throw new RuntimeException("Ошибка при обновлении заказа");
-        }
-        Order updatedOrder = manager.merge(order);
-        return Optional.of(updatedOrder);
-    }
+//    @Override
+//    public Optional<Order> updateOrder(Order order) {
+//        if (order.getId() == 0) {
+//            throw new RuntimeException("Ошибка при обновлении заказа");
+//        }
+//        Order updatedOrder = manager.merge(order);
+//        return Optional.of(updatedOrder);
+//    }
 }

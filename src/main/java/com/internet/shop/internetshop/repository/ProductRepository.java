@@ -54,13 +54,22 @@ public class ProductRepository implements ProductDao {
     }
 
     @Override
-    public Optional<Product> updateProduct(Product product) {
-        if (product.getId() == 0) {
-            throw new RuntimeException("Ошибка при обновлении, продукт не существует");
-        }
-        Product updatedProduct = manager.merge(product);
-        return Optional.of(updatedProduct);
+    public boolean existsBySku(String sku) {
+        Long result = manager.createQuery("SELECT count(p) FROM Product p WHERE p.sku = :sku", Long.class)
+                .setParameter("sku", sku)
+                .getSingleResult();
+
+        return result > 0;
     }
+
+//    @Override
+//    public Optional<Product> updateProduct(Product product) {
+//        if (product.getId() == 0) {
+//            throw new RuntimeException("Ошибка при обновлении, продукта не существует");
+//        }
+//        Product updatedProduct = manager.merge(product);
+//        return Optional.of(updatedProduct);
+//    }
 
 
 }

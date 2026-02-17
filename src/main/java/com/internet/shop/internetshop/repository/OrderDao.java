@@ -15,6 +15,6 @@ public interface OrderDao {
 
     void removeOrder(long id);
 
-    Optional<Order> updateOrder(Order order);
+//    Optional<Order> updateOrder(Order order);
 
 }

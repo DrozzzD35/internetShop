@@ -17,7 +17,7 @@ public class Order extends BaseEntity {
     private Money total;
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Status status = Status.ACTIVE;
 
     @Version
     private Integer version;

@@ -17,6 +17,8 @@ public interface ProductDao {
 
     void removeProduct(long id);
 
-    Optional<Product> updateProduct(Product product);
+//    Optional<Product> updateProduct(Product product);
+
+    boolean existsBySku(String sku);
 
 }

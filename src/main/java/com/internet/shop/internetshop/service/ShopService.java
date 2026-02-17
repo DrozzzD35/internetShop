@@ -1,6 +1,9 @@
 package com.internet.shop.internetshop.service;
 
-import com.internet.shop.internetshop.enums.Status;
+import com.internet.shop.internetshop.dto.OrderDto;
+import com.internet.shop.internetshop.dto.ProductDto;
+import com.internet.shop.internetshop.dto.UpdateOrderDto;
+import com.internet.shop.internetshop.dto.UpdateProductDto;
 import com.internet.shop.internetshop.model.Order;
 import com.internet.shop.internetshop.model.Product;
 import com.internet.shop.internetshop.repository.OrderDao;
@@ -8,14 +11,14 @@ import com.internet.shop.internetshop.repository.ProductDao;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 @Slf4j
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class ShopService {
     private final ProductDao productDao;
@@ -30,32 +33,43 @@ public class ShopService {
         return orderDao.findAllOrders();
     }
 
-    public Order createOrder(Order order, Product product) {
+    @Transactional
+    public Order createOrder(OrderDto orderDto) {
+        Product product = productDao.findProductById(orderDto.getProductId())
+                .orElseThrow(() -> new RuntimeException("Продукт не найден"));
+
         if (product.getStock() <= 0) {
             throw new RuntimeException("Товара нет в наличии");
         }
 
-        order.setStatus(Status.ACTIVE);
+        Order order = new Order();
         order.setTotal(product.getPrice());
         product.setStock(product.getStock() - 1);
-        Product updatedProduct = productDao.updateProduct(product)
-                .orElseThrow(() -> new RuntimeException("Ошибка при обновлении"));
         Order createdOrder = orderDao.createOrder(order);
-        log.info("Заказ создан id - {} и товар обновлён в {}",
-                createdOrder.getId(), updatedProduct.getUpdatedAt());
+
+        log.info("Заказ создан id - {}, id товара - {}",
+                createdOrder.getId(), product.getId());
+
         return createdOrder;
     }
 
+    @Transactional
     public void removeOrder(long id) {
         orderDao.removeOrder(id);
         log.info("Заказ удалён");
     }
 
-    public Order updateOrder(Order order) {
-        Order updatedOrder = orderDao.updateOrder(order)
-                .orElseThrow(() -> new RuntimeException("Ошибка при обновлении заказа"));
-        log.info("Заказ обновлён");
-        return updatedOrder;
+    @Transactional
+    public Order updateOrder(UpdateOrderDto orderDto) {
+        Order order = orderDao.findOrderById(orderDto.getId())
+                .orElseThrow(() -> new RuntimeException("Ошибка при поиске заказа"));
+
+        if (order.getStatus() != orderDto.getStatus()) {
+            order.setStatus(orderDto.getStatus());
+            log.info("Заказ обновлён");
+        }
+
+        return order;
     }
 
     public Product getProductById(long id) {
@@ -72,22 +86,43 @@ public class ShopService {
         return productDao.findAllProducts();
     }
 
-    public Product createProduct(Product product) {
+    @Transactional
+    public Product createProduct(ProductDto productDto) {
+        Product product = new Product();
+        product.setName(productDto.getName());
+        product.setDescription(productDto.getDescription());
+        product.setPrice(productDto.getPrice());
+        product.setStock(productDto.getStock());
+        if (productDao.existsBySku(productDto.getSku())) {
+            throw new RuntimeException("Продукт с таким артикулом уже существует");
+        }
+        product.setSku(productDto.getSku());
+
         Product createdProduct = productDao.createProduct(product);
         log.info("Товар создан");
         return createdProduct;
     }
 
+    @Transactional
     public void removeProduct(long id) {
         productDao.removeProduct(id);
         log.info("Товар удалён");
     }
 
-    public Product updateProduct(Product product) {
-        Product updatedProduct = productDao.updateProduct(product)
+    @Transactional
+    public Product updateProduct(UpdateProductDto productDto) {
+        Product productInBase = productDao.findProductById(productDto.getId())
                 .orElseThrow(() -> new RuntimeException("Ошибка при обновлении товара"));
+
+        if (!Objects.equals(productInBase.getName(), productDto.getName())) {
+            productInBase.setName(productDto.getName());
+        }
+        if (!Objects.equals(productInBase.getDescription(), productDto.getDescription())) {
+            productInBase.setDescription(productDto.getDescription());
+        }
+
         log.info("Товар обновлён");
-        return updatedProduct;
+        return productInBase;
     }
 
 

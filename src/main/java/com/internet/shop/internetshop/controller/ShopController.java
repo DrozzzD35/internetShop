@@ -1,7 +1,10 @@
 package com.internet.shop.internetshop.controller;
 
 
-import com.internet.shop.internetshop.dto.OrderProductDTO;
+import com.internet.shop.internetshop.dto.OrderDto;
+import com.internet.shop.internetshop.dto.ProductDto;
+import com.internet.shop.internetshop.dto.UpdateOrderDto;
+import com.internet.shop.internetshop.dto.UpdateProductDto;
 import com.internet.shop.internetshop.model.Order;
 import com.internet.shop.internetshop.model.Product;
 import com.internet.shop.internetshop.service.ShopService;
@@ -29,10 +32,8 @@ public class ShopController {
 
     @PostMapping("/orders")
     @ResponseStatus(HttpStatus.CREATED)
-    public Order createOrder(@RequestBody OrderProductDTO orderProductDTO) {
-        Order order = orderProductDTO.getOrder();
-        Product product = orderProductDTO.getProduct();
-        return service.createOrder(order, product);
+    public Order createOrder(@RequestBody OrderDto orderDto) {
+        return service.createOrder(orderDto);
     }
 
     @DeleteMapping("/orders/{id}")
@@ -41,7 +42,7 @@ public class ShopController {
     }
 
     @PutMapping("/orders")
-    public Order updateOrder(@RequestBody Order order) {
+    public Order updateOrder(@RequestBody UpdateOrderDto order) {
         return service.updateOrder(order);
     }
 
@@ -62,7 +63,7 @@ public class ShopController {
 
     @PostMapping("/products")
     @ResponseStatus(HttpStatus.CREATED)
-    public Product createProduct(@RequestBody Product product) {
+    public Product createProduct(@RequestBody ProductDto product) {
         return service.createProduct(product);
     }
 
@@ -72,7 +73,7 @@ public class ShopController {
     }
 
     @PutMapping("/products")
-    public Product updateProduct(@RequestBody Product product) {
+    public Product updateProduct(@RequestBody UpdateProductDto product) {
         return service.updateProduct(product);
     }
 
