@@ -3,7 +3,6 @@ package com.internet.shop.internetshop.model;
 import com.internet.shop.internetshop.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.SQLRestriction;
 

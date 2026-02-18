@@ -13,12 +13,11 @@ import java.awt.*;
 @Data
 public class ProductDto {
 
-    private ProductAttributes attributes;
-
     @NotBlank
     @Size(max = 50)
     private String name;
 
+    private ProductAttributes attributes;
     private String description;
 
     @NotNull

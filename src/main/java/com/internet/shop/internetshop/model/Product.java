@@ -2,13 +2,12 @@ package com.internet.shop.internetshop.model;
 
 import com.internet.shop.internetshop.converter.JsonAttributesConverter;
 import com.internet.shop.internetshop.converter.ProductAttributes;
+import com.internet.shop.internetshop.converter.SkuConverter;
 import com.internet.shop.internetshop.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLRestriction;
-
-import java.awt.*;
 
 @Getter
 @Setter
@@ -35,10 +34,8 @@ public class Product extends BaseEntity {
 
     private int stock;
 
-    @Column(
-            nullable = false,
-            unique = true
-    )
+    @Column(nullable = false, unique = true)
+    @Convert(converter = SkuConverter.class)
     private String sku;
 
     @Enumerated(EnumType.STRING)

@@ -12,7 +12,6 @@ import com.internet.shop.internetshop.repository.ProductDao;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -99,6 +98,7 @@ public class ShopService {
         product.setDescription(productDto.getDescription());
         product.setPrice(productDto.getPrice());
         product.setStock(productDto.getStock());
+        product.setAttributes(productDto.getAttributes());
         if (productDao.existsBySku(productDto.getSku())) {
             throw new RuntimeException("Продукт с таким артикулом уже существует");
         }

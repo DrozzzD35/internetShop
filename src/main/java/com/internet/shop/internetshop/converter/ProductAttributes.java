@@ -10,5 +10,5 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductAttributes {
-    private Map<String, String> attributes;
+    private Map<String, String> data;
 }
