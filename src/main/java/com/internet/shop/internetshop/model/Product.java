@@ -1,11 +1,14 @@
 package com.internet.shop.internetshop.model;
 
+import com.internet.shop.internetshop.converter.JsonAttributesConverter;
+import com.internet.shop.internetshop.converter.ProductAttributes;
 import com.internet.shop.internetshop.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.SQLRestriction;
+
+import java.awt.*;
 
 @Getter
 @Setter
@@ -13,6 +16,10 @@ import org.hibernate.annotations.SQLRestriction;
 @Table(name = "products")
 @SQLRestriction("deleted_at IS NULL")
 public class Product extends BaseEntity {
+
+    @Column(columnDefinition = "TEXT")
+    @Convert(converter = JsonAttributesConverter.class)
+    private ProductAttributes attributes;
 
     @Column(
             nullable = false,
